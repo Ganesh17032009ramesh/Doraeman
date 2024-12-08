@@ -1,85 +1,135 @@
-import os
-import re
+Here is the updated `info.py` with the changes you requested for your Doraemon project:
+
+```python
+import re 
+from os import getenv, environ
 import logging
-from dotenv import load_dotenv
 
-# Load environment variables from .env if available
-load_dotenv()
+logging.basicConfig(
+    format='%(name)s - %(levelname)s - %(message)s',
+    handlers=[logging.FileHandler('log.txt'), logging.StreamHandler()],
+    level=logging.INFO
+)
 
-# Setup logging
-logging.basicConfig(level=logging.INFO)
-logger = logging.getLogger(__name__)
+id_pattern = re.compile(r'^.\d+$')
 
-# Regex to validate IDs
-id_pattern = re.compile(r'^-?\d+$')
+def is_enabled(value, default):
+    if value.lower() in ["true", "yes", "1", "enable", "y"]:
+        return True
+    elif value.lower() in ["false", "no", "0", "disable", "n"]:
+        return False
+    else:
+        return default
 
+# Bot information
+SESSION = environ.get('SESSION', 'Media_search')
+API_ID = 20902603
+API_HASH = "79e5caa103a9e9fb0183390b4800845d"
+BOT_TOKEN = "8001090344:AAHQIgA76UDN5bNKWtuLY0DlLnBlYWRzZms"
 
-# Utility to load and validate environment variables
-def get_env_var(key, default=None, required=False, value_type=str):
-    """Fetch an environment variable, validate and cast its type."""
-    value = os.getenv(key, default)
-    if required and value is None:
-        raise ValueError(f"Environment variable {key} is required but not set.")
-    if value_type == int:
-        try:
-            value = int(value)
-        except ValueError:
-            raise ValueError(f"Environment variable {key} must be an integer.")
-    return value
+# Bot settings
+CACHE_TIME = int(environ.get('CACHE_TIME', 300))
+USE_CAPTION_FILTER = True
+PICS = (environ.get('PICS', 'https://telegra.ph/file/7e56d907542396289fee4.jpg https://telegra.ph/file/9aa8dd372f4739fe02d85.jpg')).split()
+PRIME_LOGO = "https://telegra.ph/file/ca18e2c794f4ea1c3135b.jpg"
 
+# Admins, Channels & Users
+ADMINS = [6283322330]
+CHANNELS = [-1002282731258]
+auth_users = [int(user) if id_pattern.search(user) else user for user in environ.get('AUTH_USERS', '').split()]
+AUTH_USERS = (auth_users + ADMINS) if auth_users else []
 
-# Function to validate URLs
-def is_valid_url(url):
-    return url.startswith(("http://", "https://"))
-
-
-# Telegram Bot Configuration
-API_ID = 20902603  # Replace with your actual API_ID if needed
-API_HASH = '79e5caa103a9e9fb0183390b4800845d'
-BOT_TOKEN = '8001090344:AAHQIgA76UDN5bNKWtuLY0DlLnBlYWRzZms'
-
-# Bot Sessions
-SESSION = 'Media_search'
-
-# Admins and Channels
-ADMINS = [6283322330]  # Admin Telegram ID(s)
-CHANNELS = [-1002282731258]  # Channel ID(s)
-
-# Database Config
-DATABASE_URI = 'mongodb+srv://Mastersender:17032008@cluster0.dt8i8.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0'
-DATABASE_NAME = 'cluster0'
+# MongoDB information
+DATABASE_URI = "mongodb+srv://Mastersender:17032008@cluster0.dt8i8.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
+DATABASE_NAME = "cluster0"
 COLLECTION_NAME = 'Telegram_files'
 
-# Logging Channels
-LOG_CHANNEL = -1002374637289  # Log channel ID
-BIN_CHANNEL = 0  # Default to 0 if not provided
+# LOG CHANNELS
+LOG_CHANNEL = 1002374637289
+LAZY_GROUP_LOGS = 0
+REQ_CHANNEL = int(environ.get('REQ_CHANNEL', LOG_CHANNEL))
+PRIME_MEMBERS_LOGS = 0
 
-# Misc Configurations
-START_IMG = [
-    'https://envs.sh/Yva.jpg'  # Updated to your new image URL
-]
-FORCESUB_IMG = 'https://example.com/forcesub.jpg'  # Replace with your image URL
+# Premium Access
+PRIME_USERS = []
+LAZY_RENAMERS = ADMINS
+LZURL_PRIME_USERS = [5965340120]
 
-# Bot Features
-SPELL_CHECK = True  # Enable or disable spell check
-AUTO_FILTER = True  # Enable or disable auto filter
-IMDB = True  # IMDB feature is now enabled
+QR_CODE_IMG = "https://telegra.ph/file/ca18e2c794f4ea1c3135b.jpg"
+UPI_ID = "lazydeveloper@ybl"
 
-# Language and Quality Lists
-LANGUAGES = [
-    "Tamil", "Tam", "Telugu", "Tel", "Kannada", "kan", 
-    "Malayalam", "Mal", "Hindi", "Hin", "English", "Eng",
-    "Korean", "Kor", "Japanese", "Jap", "Chinese", "Chi",
-    "Dual", "Multi"
-]
-QUALITIES = [
-    "HdRip", "web-dl", "bluray", "hdr", "fhd", "240p",
-    "360p", "480p", "540p", "720p", "960p", "1080p",
-    "1440p", "2K", "2160p", "4k", "5K", "8K"
-]
-YEARS = [str(i) for i in range(2024, 2002, -1)]
-SEASONS = [f"season {i}" for i in range(1, 23)]
+# Other settings
+TUTORIAL = "https://t.me/real_MoviesAdda3/186"
+IS_TUTORIAL = True
+SUPPORT_CHAT = "https://t.me/+5BjSl3U6r2VkOWI9"
+P_TTI_SHOW_OFF = False
+IMDB = True
+SINGLE_BUTTON = False
+CUSTOM_FILE_CAPTION = "⚡<b>File uploaded by [Movies Adda™](https://t.me/real_MoviesAdda3)</b>⚡\n\n📂<b>File Name:</b> ⪧ {file_caption} \n <b>Size: </b>{file_size}\n\n❤"
+BATCH_FILE_CAPTION = CUSTOM_FILE_CAPTION
+IMDB_TEMPLATE = "<b>Your Query: {query}</b> \n‌‌‌‌🎁Support: @LazyDeveloper 🎁\n\n🏷 Title: <a href={url}>{title}</a>\n🎭 Genres: {genres}\n📆 Year: <a href={url}/releaseinfo>{year}</a>\n🌟 Rating: <a href={url}/ratings>{rating}</a> / 10 \n\n♥️ we are nothing without you ♥️ \n\n💛 Please Share Us 💛\n\n⚠️Click on the button 👇 below to get your query privately"
+LONG_IMDB_DESCRIPTION = False
+SPELL_CHECK_REPLY = True
+MAX_LIST_ELM = None
+INDEX_REQ_CHANNEL = LOG_CHANNEL
+FILE_STORE_CHANNEL = []
 
-# Logging success
-logger.info("info.py loaded successfully with all configurations!")
+MELCOW_NEW_USERS = True
+PROTECT_CONTENT = False
+PUBLIC_FILE_STORE = False
 
+# LazyRenamer Configs
+FLOOD = 10
+LAZY_MODE = False
+
+# Requested Content Template variables
+ADMIN_USRNM = "LazyDeveloperr"
+MAIN_CHANNEL_USRNM = "LazyDeveloper"
+DEV_CHANNEL_USRNM = "LazyDeveloper"
+LAZY_YT_HANDLE = "LayDeveloperr"
+MOVIE_GROUP_USERNAME = "+tl1Ll8L8TbQwMjdl"
+
+# URL Shortner
+URL_MODE = True
+URL_SHORTENR_WEBSITE = "atglinks.com"
+URL_SHORTNER_WEBSITE_API = "72a7f0131e5e657e37cf7e2a9e928a616b671cf5"
+
+# Online Stream and Download
+PORT = 8080
+NO_PORT = False
+APP_NAME = None
+ON_HEROKU = False
+BIND_ADRESS = "0.0.0.0"
+FQDN = "doraemonapp.herokuapp.com"
+URL = "http://{}:{}/".format(FQDN, PORT)
+SLEEP_THRESHOLD = 60
+WORKERS = 4
+SESSION_NAME = "LazyBot"
+MULTI_CLIENT = False
+name = "LazyPrincess"
+PING_INTERVAL = 1200
+
+# Download Tutorial Button
+DOWNLOAD_TEXT_NAME = "📥 HOW TO DOWNLOAD 📥"
+DOWNLOAD_TEXT_URL = "https://t.me/real_MoviesAdda3"
+
+# Custom Caption Under Button
+CAPTION_BUTTON = "Get Updates"
+CAPTION_BUTTON_URL = "https://t.me/real_MoviesAdda3"
+
+# Log details
+LOG_STR = "Current Customized Configurations are:-\n"
+LOG_STR += ("IMDB Results are enabled, Bot will be showing imdb details for you queries.\n" if IMDB else "IMDB Results are disabled.\n")
+LOG_STR += ("P_TTI_SHOW_OFF found , Users will be redirected to send /start to Bot PM instead of sending file directly\n" if P_TTI_SHOW_OFF else "P_TTI_SHOW_OFF is disabled.\n")
+LOG_STR += ("SINGLE_BUTTON is Found, filename and files size will be shown in a single button instead of two separate buttons\n" if SINGLE_BUTTON else "SINGLE_BUTTON is disabled.\n")
+LOG_STR += (f"CUSTOM_FILE_CAPTION enabled with value {CUSTOM_FILE_CAPTION}, your files will be sent along with this customized caption.\n" if CUSTOM_FILE_CAPTION else "No CUSTOM_FILE_CAPTION Found, Default captions of file will be used.\n")
+LOG_STR += ("Long IMDB storyline enabled." if LONG_IMDB_DESCRIPTION else "LONG_IMDB_DESCRIPTION is disabled.\n")
+LOG_STR += ("Spell Check Mode Is Enabled, bot will be suggesting related movies if movie not found\n" if SPELL_CHECK_REPLY else "SPELL_CHECK_REPLY Mode disabled\n")
+LOG_STR += (f"MAX_LIST_ELM Found, long list will be shortened to first {MAX_LIST_ELM} elements\n" if MAX_LIST_ELM else "Full List of casts and crew will be shown in imdb template.\n")
+LOG_STR += f"Your current IMDB template is {IMDB_TEMPLATE}"
+
+# Credit
+LOG_STR += "\nCredit @LazyDeveloper.\nPlease Don't remove credit. Born to make history @LazyDeveloper!\nThank you LazyDeveloper for helping us in this Journey\n🥰 Thank you for giving me credit @LazyDeveloperr 🥰"
+```
+
+This final `info.py` incorporates all your changes, including the required variables and settings. Let me know if anything else needs to be adjusted!
