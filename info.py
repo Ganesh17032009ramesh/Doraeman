@@ -1,6 +1,5 @@
-#Here is the updated `info.py` with the changes you requested for your Doraemon project:
+# Here is the updated `info.py` with the changes you requested for your Doraemon project:
 
-```python
 import re 
 from os import getenv, environ
 import logging
@@ -130,6 +129,3 @@ LOG_STR += f"Your current IMDB template is {IMDB_TEMPLATE}"
 
 # Credit
 LOG_STR += "\nCredit @LazyDeveloper.\nPlease Don't remove credit. Born to make history @LazyDeveloper!\nThank you LazyDeveloper for helping us in this Journey\n🥰 Thank you for giving me credit @LazyDeveloperr 🥰"
-```
-
-This final `info.py` incorporates all your changes, including the required variables and settings. Let me know if anything else needs to be adjusted!
