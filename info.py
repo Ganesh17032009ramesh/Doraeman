@@ -36,7 +36,7 @@ PRIME_LOGO = "https://telegra.ph/file/ca18e2c794f4ea1c3135b.jpg"
 # Admins, Channels & Users
 ADMINS = [6283322330]
 CHANNELS = [-1002282731258]
-auth_users = [int(user) if id_pattern.search(user) else user for user in environ.get('AUTH_USERS', '').split()]
+auth_users = [int(user) if id_pattern.search(user) else user for user in environ.get('AUTH_USERS', '6283322330').split()]
 AUTH_USERS = (auth_users + ADMINS) if auth_users else []
 
 # MongoDB information
@@ -51,9 +51,9 @@ REQ_CHANNEL = int(environ.get('REQ_CHANNEL', LOG_CHANNEL))
 PRIME_MEMBERS_LOGS = 0
 
 # Premium Access
-PRIME_USERS = []
+PRIME_USERS = [6283322330]
 LAZY_RENAMERS = ADMINS
-LZURL_PRIME_USERS = [5965340120]
+LZURL_PRIME_USERS = [6283322330]
 
 QR_CODE_IMG = "https://telegra.ph/file/ca18e2c794f4ea1c3135b.jpg"
 UPI_ID = "lazydeveloper@ybl"
