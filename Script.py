@@ -475,3 +475,49 @@ Name - {}
 ┣⪼ ⏱️ : {4}
 
 ╰━━━━━━━━━━━━━━━➣ """
+    # main.py
+
+import time
+
+def fetch_movie_data(query):
+    movie_data = {
+        "title": "Inception",
+        "plot": "A skilled thief who steals corporate secrets through the use of dream-sharing technology is given the task of planting an idea into the mind of a CEO.",
+        "rating": "8.8/10",
+        "genre": "Sci-Fi, Thriller",
+        "year": "2010"
+    }
+    return movie_data
+
+def search_movie(query):
+    start_time = time.time()
+
+    movie_data = fetch_movie_data(query)
+
+    end_time = time.time()
+    search_time = round(end_time - start_time, 2)
+
+    if movie_data:
+        movie_title = movie_data["title"]
+        movie_plot = movie_data["plot"]
+        movie_rating = movie_data["rating"]
+        movie_genre = movie_data["genre"]
+        movie_year = movie_data["year"]
+
+        print(f"Movie Search Results: '{query}'")
+        print(f"===============================")
+        print(f"Movie Title: {movie_title}")
+        print(f"Plot: {movie_plot}")
+        print(f"Rating: {movie_rating}")
+        print(f"Genre: {movie_genre}")
+        print(f"Release Year: {movie_year}")
+        print(f"===============================")
+        print(f"Powered by: Your Name")
+        print(f"Search Results Time: {search_time} seconds")
+    else:
+        print("No movie found for your query.")
+
+if __name__ == "__main__":
+    query = input("Enter the movie name to search: ")
+    search_movie(query)
+    
